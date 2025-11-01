@@ -50,8 +50,8 @@ def draw_circle(surface, color, position, radius, name):
 
 pygame.init()
 FONT = pygame.font.Font(None, 24)
-screen = pygame.display.set_mode((400, 300))
-pygame.display.set_caption('My Pygame Window')
+screen = pygame.display.set_mode((400, 300), pygame.RESIZABLE)
+pygame.display.set_caption('Graphes')
 horloge = pygame.time.Clock()
 FPS = 60
 running = True
@@ -59,10 +59,13 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        
+        if event.type == pygame.VIDEORESIZE:
+            screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
     screen.fill((255, 255, 255))
-    pos1 = (100, 50)
-    pos2 = (200, 250)
-    pos3 = (250, 100)
+    pos1 = (screen.get_width() // 4, screen.get_height() // 4)
+    pos2 = (screen.get_width() // 2, 1.5*screen.get_height() // 2)
+    pos3 = (3 * screen.get_width() // 4, screen.get_height() // 4)
     draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos1, CIRCLE_SIZE, 1)
     draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos2, CIRCLE_SIZE, 2)
     draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos3, CIRCLE_SIZE, 3)
