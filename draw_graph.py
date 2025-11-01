@@ -144,7 +144,7 @@ def draw_line(surface:pygame.Surface, FONT:pygame.font.Font, color:tuple,
     Returns:
         None
 
-    Note:
+    Notes:
         - Les offsets permettent d'éviter que la ligne ne touche les cercles aux extrémités.
         - Les flèches sont dessinées en utilisant des polygones triangulaires.
         - Le label est centré sur la ligne, avec des options de décalage.
@@ -249,3 +249,46 @@ def draw_line(surface:pygame.Surface, FONT:pygame.font.Font, color:tuple,
         text_rect.center = (int(center_x) + label_offset_x, int(center_y) + label_offset_y)
         
         surface.blit(text_surface, text_rect)
+
+def draw_circle(surface: pygame.Surface, FONT: pygame.font.Font, color: tuple, center_color: tuple, position: tuple, radius: int, inner_radius: int=None, name: str=None) -> None:
+    """
+    Dessine un nœud circulaire composé d'un anneau extérieur et d'un cercle intérieur,
+    puis affiche un label centré sur le nœud.
+
+    Args:
+        surface (pygame.Surface): Surface Pygame sur laquelle dessiner.
+        FONT (pygame.font.Font): Police utilisée pour le rendu du label.
+        color (tuple[int, int, int]): Couleur (R, G, B) du cercle extérieur.
+        center_color (tuple[int, int, int]): Couleur (R, G, B) du cercle intérieur (centre).
+        position (tuple[int, int]): Coordonnées (x, y) du centre du cercle en pixels.
+        radius (int): Rayon du cercle extérieur en pixels.
+        inner_radius (int, optional): Rayon du cercle intérieur en pixels. Si None, il est calculé comme radius * 0.8. Défaut None.
+        name (str, optional): Texte à afficher centré dans le cercle. Si None, aucun texte n'est affiché. Si une erreur survient lors de la conversion en chaîne, "?" est utilisé. Défaut None.
+
+    Returns:
+        None
+
+    Notes:
+        - Le cercle intérieur est dessiné avec un rayon de radius * 0.8 pour créer un effet
+          d'anneau/centre.
+        - Le label est rendu avec pygame.font.Font(None, 24) et centré sur la position fournie.
+        - Les erreurs de conversion du nom en chaîne sont capturées et remplacées par "?". 
+    
+    Examples:
+        >>> draw_circle(screen, FONT, (255, 0, 0), (255, 255, 255), (100, 100), 20, name="A")
+        >>> draw_circle(screen, FONT, (0, 0, 255), (200, 200, 200), (200, 150), 30, inner_radius=25, name="Node 1")
+        >>> draw_circle(screen, FONT, (0, 255, 0), (0, 0, 0), (300, 200), 15)
+    """
+    if inner_radius is None:
+        inner_radius = int(radius * 0.8)
+    if name is None:
+        name = ""
+    try:
+        name = str(name)
+    except Exception:
+        name = "?"
+    pygame.draw.circle(surface, color, position, radius)
+    pygame.draw.circle(surface, center_color, position, inner_radius)
+    text = FONT.render(name, True, (0, 0, 0))
+    text_rect = text.get_rect(center=position)
+    surface.blit(text, text_rect)

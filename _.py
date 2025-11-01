@@ -11,18 +11,6 @@ COULEUR_LIGNES = (0, 204, 204)
 CIRCLE_SIZE = 15
 WIDTH = 5
 
-def draw_circle(surface, color, position, radius, name):
-    try:
-        name = str(name)
-    except Exception:
-        name = "?"
-    pygame.draw.circle(surface, color, position, radius)
-    pygame.draw.circle(surface, COULEUR_CERCLE_CENTRE, position, radius*0.8)
-    font = pygame.font.Font(None, 24)
-    text = font.render(name, True, (0, 0, 0))
-    text_rect = text.get_rect(center=position)
-    surface.blit(text, text_rect)
-
 # def draw_line(surface, color, start_pos, end_pos, name=None, width=1, oriented=False):
     
 #     if oriented:
@@ -66,9 +54,9 @@ while running:
     pos1 = (screen.get_width() // 4, screen.get_height() // 4)
     pos2 = (screen.get_width() // 2, 1.5*screen.get_height() // 2)
     pos3 = (3 * screen.get_width() // 4, screen.get_height() // 4)
-    draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos1, CIRCLE_SIZE, 1)
-    draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos2, CIRCLE_SIZE, 2)
-    draw_circle(screen, COULEUR_CERCLE_EXTERIEUR, pos3, CIRCLE_SIZE, 3)
+    dg.draw_circle(screen, FONT, COULEUR_CERCLE_EXTERIEUR, COULEUR_CERCLE_CENTRE, pos1, CIRCLE_SIZE, 1)
+    dg.draw_circle(screen, FONT, COULEUR_CERCLE_EXTERIEUR, COULEUR_CERCLE_CENTRE, pos2, CIRCLE_SIZE, 2)
+    dg.draw_circle(screen, FONT, COULEUR_CERCLE_EXTERIEUR, COULEUR_CERCLE_CENTRE, pos3, CIRCLE_SIZE, 3)
     dg.draw_line(screen, FONT, COULEUR_LIGNES, pos1, pos2, label="1-2", offset_end=CIRCLE_SIZE, offset_start=CIRCLE_SIZE)
     dg.draw_line(screen, FONT, COULEUR_LIGNES, pos2, pos3, label="2-3", offset_end=CIRCLE_SIZE, offset_start=CIRCLE_SIZE)
     dg.draw_line(screen, FONT, COULEUR_LIGNES, pos3, pos1, label="3-1", offset_end=CIRCLE_SIZE, offset_start=CIRCLE_SIZE)
